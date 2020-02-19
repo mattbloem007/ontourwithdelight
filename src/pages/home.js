@@ -56,7 +56,7 @@ const indexQuery = graphql`
       }
     }
     wpgraphql {
-      posts(where: { categoryName: "Uncategorized" }) {
+      posts {
         edges {
           node {
             excerpt

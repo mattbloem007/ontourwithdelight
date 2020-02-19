@@ -6,45 +6,45 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import pic2 from "../assets/images/pic02.jpg"
 
-class BlogPostTemplate extends React.Component {
+class PageTemplate extends React.Component {
   render() {
-    const post = this.props.data.wpgraphql.post
+    const page = this.props.data.wpgraphql.page
     const siteTitle = this.props.data.site.siteMetadata.title
 
     let isImage = true
-    if (post.featuredImage == null) {
+    if (page.featuredImage == null) {
       isImage = false
     }
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title={post.title} description={post.excerpt} />
-        <article className={`post-content ${`no-image`}`}>
-          <header className="post-content-header">
-            <h1 className="post-content-title">{post.title}</h1>
+        <SEO title={page.title} description={page.excerpt} />
+        <article className={`page-content ${`no-image`}`}>
+          <header className="page-content-header">
+            <h1 className="page-content-title">{page.title}</h1>
           </header>
 
-          {/**{post.excerpt && (
+          {/**{page.excerpt && (
             <div
-            className="post-content-excerpt"
-            dangerouslySetInnerHTML={{ __html: post.excerpt }}
+            className="page-content-excerpt"
+            dangerouslySetInnerHTML={{ __html: page.excerpt }}
           />
         )}*/}
 
           {isImage ? (
-            <div className="post-content-image">
+            <div className="page-content-image">
               <Img fluid={pic2} />
             </div>
           ) : null}
 
           <div
-            className="post-content-body"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            className="page-content-body"
+            dangerouslySetInnerHTML={{ __html: page.content }}
           />
 
-          <footer className="post-content-footer">
+          <footer className="page-content-footer">
             {/* There are two options for how we display the byline/author-info.
-        If the post has more than one author, we load a specific template
+        If the page has more than one author, we load a specific template
         from includes/byline-multiple.hbs, otherwise, we just use the
         default byline. */}
           </footer>
@@ -54,10 +54,10 @@ class BlogPostTemplate extends React.Component {
   }
 }
 
-export default BlogPostTemplate
+export default PageTemplate
 
 export const pageQuery = graphql`
-  query GET_POSTS($id: ID!, $id2: StringQueryOperatorInput) {
+  query GET_PAGES($id: ID!) {
     site {
       siteMetadata {
         title
@@ -65,27 +65,15 @@ export const pageQuery = graphql`
       }
     }
     wpgraphql {
-      post(id: $id) {
+      page(id: $id) {
         id
-        postId
         title
         date
         uri
-        excerpt
         content
         featuredImage {
           sourceUrl
           title
-        }
-      }
-    }
-
-    file(parent: { id: $id2 }) {
-      name
-      childImageSharp {
-        fluid(maxWidth: 500) {
-          srcSet
-          ...GatsbyImageSharpFluid
         }
       }
     }
