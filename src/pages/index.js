@@ -56,7 +56,7 @@ const indexQuery = graphql`
       }
     }
     wpgraphql {
-      posts(where: { categoryName: "Uncategorized" }) {
+      posts(where: { categoryName: "Tours" }) {
         edges {
           node {
             excerpt

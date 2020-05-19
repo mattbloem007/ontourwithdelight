@@ -32,40 +32,65 @@ const Layout = props => {
                 <nav id="swup" class="site-head-left">
                   <ul className="nav" role="menu">
                     {data.wpgraphql.menus.nodes.map(menu => {
-                      console.log(menu)
-                      return (
-                        <li className="nav-home nav-current" role="menuitem">
-                          <Link to={`/` + menu.slug}>{menu.name}</Link>
-                        </li>
-                      )
+                      console.log("length", menu.menuItems.edges.length)
+                      if (menu.menuItems.edges.length != 0) {
+                        return (
+                          <li className="nav-home nav-current" role="menuitem">
+                            <Link to={`/` + menu.slug}>{menu.name}</Link>
+                            <ul class="dropdown">
+                              {menu.menuItems.edges.map(submenu => {
+                                let url = submenu.node.url
+                                let slug = url.slice(
+                                  url.indexOf("19/") + 3,
+                                  url.length
+                                )
+                                console.log("slug", slug)
+                                return (
+                                  <li>
+                                    <Link to={`/` + slug}>
+                                      {submenu.node.label}
+                                    </Link>
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          </li>
+                        )
+                      } else {
+                        return (
+                          <li className="nav-home nav-current" role="menuitem">
+                            <Link to={`/` + menu.slug}>{menu.name}</Link>
+                          </li>
+                        )
+                      }
                     })}
                   </ul>
                 </nav>
-                <div className="site-head-center">
+                <div className="site-head-right">
                   <Link className="site-head-logo" to={`/`}>
                     {title}
                   </Link>
                 </div>
-                <div className="site-head-right">
-                  <div className="social-links">
-                    <a
-                      href="https://www.facebook.com"
-                      title="Facebook"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Facebook
-                    </a>
-                    <Link
-                      to={`/rss.xml`}
-                      title="RSS"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      RSS
-                    </Link>
-                  </div>
+                {/**<div className="site-head-right">
+                <div className="social-links">
+                  <a
+                    href="https://www.facebook.com"
+                    title="Facebook"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Facebook
+                  </a>
+                  <Link
+                    to={`/rss.xml`}
+                    title="RSS"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    RSS
+                  </Link>
                 </div>
+              </div>*/}
               </div>
             </header>
             <main id="site-main" className="site-main">
@@ -90,6 +115,14 @@ const bioQuery = graphql`
         nodes {
           name
           slug
+          menuItems {
+            edges {
+              node {
+                label
+                url
+              }
+            }
+          }
         }
       }
     }
