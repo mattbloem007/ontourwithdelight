@@ -41,7 +41,7 @@ const Layout = props => {
                               {menu.menuItems.edges.map(submenu => {
                                 let url = submenu.node.url
                                 let slug = url.slice(
-                                  url.indexOf("19/") + 3,
+                                  url.indexOf("21/") + 3,
                                   url.length
                                 )
                                 console.log("slug", slug)
