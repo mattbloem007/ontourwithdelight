@@ -21,7 +21,7 @@ module.exports = {
         // This is field under which it's accessible
         fieldName: `wpgraphql`,
         // Url to query from
-        url: `https://wordp.ontourwithdelight.co.za/graphql`,
+        url: `https://word.ontourwithdelight.co.za/graphql`,
       },
     },
     {
